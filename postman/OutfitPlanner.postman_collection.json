@@ -1,0 +1,37 @@
+{
+  "info": {
+    "name": "OutfitPlanner (Week5)",
+    "_postman_id": "9b7f0b7a-1111-2222-3333-abcdeabcde00",
+    "description": "Health, Version, Items, Outfits",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "GET /health",
+      "request": { "method": "GET", "url": { "raw": "{{base}}health", "host": ["{{base}}health"] } }
+    },
+    {
+      "name": "GET /version",
+      "request": { "method": "GET", "url": { "raw": "{{base}}version", "host": ["{{base}}version"] } }
+    },
+    {
+      "name": "GET /items",
+      "request": { "method": "GET", "url": { "raw": "{{base}}items", "host": ["{{base}}items"] } }
+    },
+    {
+      "name": "POST /items",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\":\"Blue Jeans\",\"type\":\"bottoms\",\"color\":\"blue\",\"tags\":[\"casual\"]}"
+        },
+        "url": { "raw": "{{base}}items", "host": ["{{base}}items"] }
+      }
+    }
+  ]
+}

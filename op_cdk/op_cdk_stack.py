@@ -10,13 +10,9 @@ class OutfitPlannerStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, *, stage: str = "dev", **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        # --- 0) per-stage flags/values ---
         is_prod = stage == "prod"
-
-        # Replace with the CloudFront domain that serves your UI (no trailing slash)
         allowed_origin = "*" if not is_prod else "https://d13vpwdkbkv4ik.cloudfront.net"
 
-        # --- 1) DynamoDB ---
         table = dynamodb.Table(
             self, "Table",
             table_name=f"OutfitPlanner-{stage}",
@@ -26,14 +22,13 @@ class OutfitPlannerStack(Stack):
             removal_policy=RemovalPolicy.RETAIN if is_prod else RemovalPolicy.DESTROY
         )
 
-        # --- 2) Lambdas ---
         env = {
             "TABLE_NAME": table.table_name,
             "ALLOWED_ORIGIN": allowed_origin,
-            "STAGE": stage
+            "STAGE": stage,
+            "APP_VERSION": "v0.6-week5"
         }
 
-        # Stable names make log tailing easy
         items_fn = _lambda.Function(
             self, "ItemsFn",
             function_name=f"OutfitPlanner-{stage}-Items",
@@ -64,13 +59,20 @@ class OutfitPlannerStack(Stack):
             environment=env
         )
 
-        # --- 3) Permissions (simple & safe now) ---
-        # This fixes the AccessDenied on dynamodb:Scan
+        version_fn = _lambda.Function(
+            self, "VersionFn",
+            function_name=f"OutfitPlanner-{stage}-Version",
+            runtime=_lambda.Runtime.PYTHON_3_12,
+            handler="version.handler",
+            code=_lambda.Code.from_asset("lambda"),
+            timeout=Duration.seconds(5),
+            environment=env
+        )
+
+        # permissions
         table.grant_read_write_data(items_fn)
         table.grant_read_write_data(outfits_fn)
-        # (health_fn doesn't touch DynamoDB)
 
-        # --- 4) API Gateway ---
         api = apigw.RestApi(
             self, "Api",
             rest_api_name=f"OutfitPlanner-{stage}",
@@ -82,28 +84,26 @@ class OutfitPlannerStack(Stack):
             )
         )
 
-        # /health
-        health = api.root.add_resource("health")
-        health.add_method("GET", apigw.LambdaIntegration(health_fn))
+        # routes
+        api.root.add_resource("health").add_method("GET", apigw.LambdaIntegration(health_fn))
+        api.root.add_resource("version").add_method("GET", apigw.LambdaIntegration(version_fn))
 
-        # /items
         items = api.root.add_resource("items")
         items.add_method("GET", apigw.LambdaIntegration(items_fn))
         items.add_method("POST", apigw.LambdaIntegration(items_fn))
 
-        # /outfits and /outfits/{id}
         outfits = api.root.add_resource("outfits")
         outfits.add_method("GET", apigw.LambdaIntegration(outfits_fn))
         outfits.add_method("POST", apigw.LambdaIntegration(outfits_fn))
-
         outfit_id = outfits.add_resource("{id}")
         outfit_id.add_method("GET", apigw.LambdaIntegration(outfits_fn))
         outfit_id.add_method("PATCH", apigw.LambdaIntegration(outfits_fn))
         outfit_id.add_method("DELETE", apigw.LambdaIntegration(outfits_fn))
 
-        # --- 5) Clean outputs ---
+        # outputs
         CfnOutput(self, "ApiUrl", value=api.url_for_path("/"))
         CfnOutput(self, "HealthUrl", value=api.url_for_path("/health"))
+        CfnOutput(self, "VersionUrl", value=api.url_for_path("/version"))
         CfnOutput(self, "ItemsUrl", value=api.url_for_path("/items"))
         CfnOutput(self, "OutfitsUrl", value=api.url_for_path("/outfits"))
         CfnOutput(self, "TableName", value=table.table_name)
