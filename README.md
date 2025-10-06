@@ -55,4 +55,29 @@ command.
  * `cdk diff`        compare deployed stack with current state
  * `cdk docs`        open CDK documentation
 
-Enjoy!
+## Stacks
+- OutfitPlanner-Dev
+  - Table: OutfitPlanner-dev (DESTROY on delete)
+  - CORS: *
+- OutfitPlanner-Prod
+  - Table: OutfitPlanner-prod (RETAIN on delete)
+  - CORS: https://<your-cloudfront-domain>
+
+### Useful
+- Get Prod URL:
+  aws cloudformation describe-stacks --stack-name OutfitPlanner-Prod \
+    --query "Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue" --output text
+
+## Health Check
+- `GET /health` → `{ ok, service, stage, table, time }`
+- Prod CORS: https://d13vpwdkbkv4ik.cloudfront.net
+
+## Version
+- `GET /version` → `{ version, stage, deployedAt }`
+- Current APP_VERSION: `v0.6-week5`
+
+## Postman
+- Import `postman/OutfitPlanner.postman_collection.json`
+- Set collection var `base = <ApiUrl from CloudFormation outputs>`
+
+
