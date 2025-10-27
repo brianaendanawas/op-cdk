@@ -1,10 +1,26 @@
 # 👗 Outfit Planner – AWS CDK Project
 
-A serverless outfit planning app built with AWS CDK (Python).  
+A **serverless outfit planning app** built with **AWS CDK (Python)**.  
 It uses **API Gateway**, **Lambda**, and **DynamoDB** for backend logic, with **S3 + CloudFront** hosting the static web client.  
 Users can create, list, and view outfit items in a responsive web interface.
 
 🔗 **Live Demo:** [https://d13vpwdkbkv4ik.cloudfront.net](https://d13vpwdkbkv4ik.cloudfront.net)
+
+---
+
+## 🏗️ Architecture Overview
+
+**Frontend:**  
+- Static website hosted on **Amazon S3**  
+- Distributed via **CloudFront (HTTPS)**  
+
+**Backend:**  
+- **API Gateway** routes REST requests  
+- **Lambda functions** handle CRUD operations  
+- **DynamoDB** stores outfit data  
+- **CDK (Python)** defines and deploys infrastructure  
+
+---
 
 ## 🖼️ Screenshots
 
@@ -12,88 +28,142 @@ Users can create, list, and view outfit items in a responsive web interface.
 |---|---|
 | ![Outfit Planner Web](./app-screenshot.png) | ![DynamoDB Items](./dynamodb-items.png) |
 
+---
 
+## 📁 Project Structure
 
+op-cdk/
+├── app.py # CDK app entry point
+├── stacks/ # CDK stack definitions (Dev/Prod)
+├── lambda/ # Lambda function code
+├── postman/ # API test collection
+├── README.md # Project documentation
+└── requirements.txt # Python dependencies
 
+yaml
+Copy code
 
+---
 
-This is a blank project for CDK development with Python.
+## 🧰 Setup Instructions
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This project is set up like a standard Python CDK project.  
+It uses a virtual environment (`.venv`) to manage dependencies.
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+### Create and activate virtual environment
 
-To manually create a virtualenv on MacOS and Linux:
+**MacOS / Linux**
+python3 -m venv .venv
+source .venv/bin/activate
 
-```
-$ python3 -m venv .venv
-```
+markdown
+Copy code
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+**Windows**
+python -m venv .venv
+.venv\Scripts\activate.bat
 
-```
-$ source .venv/bin/activate
-```
+shell
+Copy code
 
-If you are a Windows platform, you would activate the virtualenv like this:
+### Install dependencies
+pip install -r requirements.txt
 
-```
-% .venv\Scripts\activate.bat
-```
+shell
+Copy code
 
-Once the virtualenv is activated, you can install the required dependencies.
+### Synthesize CloudFormation template
+cdk synth
 
-```
-$ pip install -r requirements.txt
-```
+shell
+Copy code
 
-At this point you can now synthesize the CloudFormation template for this code.
+### Deploy the stack
+cdk deploy
 
-```
-$ cdk synth
-```
+yaml
+Copy code
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
+---
 
-## Useful commands
+## 🧩 Useful CDK Commands
 
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
+| Command | Description |
+|----------|-------------|
+| `cdk ls` | List all stacks in the app |
+| `cdk synth` | Emit synthesized CloudFormation template |
+| `cdk deploy` | Deploy the stack to your AWS account/region |
+| `cdk diff` | Compare deployed stack with current state |
+| `cdk docs` | Open AWS CDK documentation |
 
-## Stacks
-- OutfitPlanner-Dev
-  - Table: OutfitPlanner-dev (DESTROY on delete)
-  - CORS: *
-- OutfitPlanner-Prod
-  - Table: OutfitPlanner-prod (RETAIN on delete)
-  - CORS: https://<your-cloudfront-domain>
+---
 
-### Useful
-- Get Prod URL:
-  aws cloudformation describe-stacks --stack-name OutfitPlanner-Prod \
-    --query "Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue" --output text
+## ☁️ Stacks
 
-## Health Check
-- `GET /health` → `{ ok, service, stage, table, time }`
-- Prod CORS: https://d13vpwdkbkv4ik.cloudfront.net
+### OutfitPlanner-Dev
+- Table: `OutfitPlanner-dev` (DESTROY on delete)
+- CORS: `*`
 
-## Version
-- `GET /version` → `{ version, stage, deployedAt }`
-- Current APP_VERSION: `v0.6-week5`
+### OutfitPlanner-Prod
+- Table: `OutfitPlanner-prod` (RETAIN on delete)
+- CORS: `https://d13vpwdkbkv4ik.cloudfront.net`
 
-## Postman
-- Import `postman/OutfitPlanner.postman_collection.json`
-- Set collection var `base = <ApiUrl from CloudFormation outputs>`
+---
 
+## 🔍 Useful CLI Commands
 
+Get Prod API URL:
+aws cloudformation describe-stacks --stack-name OutfitPlanner-Prod
+--query "Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue"
+--output text
+
+yaml
+Copy code
+
+---
+
+## 🩺 Health Check
+
+`GET /health` → returns:
+{ "ok": true, "service": "OutfitPlanner", "stage": "prod", "table": "OutfitPlanner-prod", "time": "..." }
+
+yaml
+Copy code
+
+Prod CORS: `https://d13vpwdkbkv4ik.cloudfront.net`
+
+---
+
+## 🧾 Version Endpoint
+
+`GET /version` → returns:
+{ "version": "v0.6-week5", "stage": "prod", "deployedAt": "..." }
+
+yaml
+Copy code
+
+---
+
+## 📬 Postman Collection
+
+Import the file:
+postman/OutfitPlanner.postman_collection.json
+
+javascript
+Copy code
+
+Set collection variable:
+base = <ApiUrl from CloudFormation outputs>
+
+yaml
+Copy code
+
+---
+
+## ✅ Current Version
+
+**APP_VERSION:** `v0.6-week5`  
+**Stacks deployed:** Dev + Prod  
+**CloudFront URL:** [https://d13vpwdkbkv4ik.cloudfront.net](https://d13vpwdkbkv4ik.cloudfront.net)
+
+---
