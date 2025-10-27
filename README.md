@@ -1,6 +1,3 @@
-
-# Welcome to your CDK Python project!
-
 # 👗 Outfit Planner – AWS CDK Project
 
 A serverless outfit planning app built with AWS CDK (Python).  
