@@ -1,6 +1,21 @@
 
 # Welcome to your CDK Python project!
 
+# 👗 Outfit Planner – AWS CDK Project
+
+A serverless outfit planning app built with AWS CDK (Python).  
+It uses **API Gateway**, **Lambda**, and **DynamoDB** for backend logic, with **S3 + CloudFront** hosting the static web client.  
+Users can create, list, and view outfit items in a responsive web interface.
+
+🔗 **Live Demo:** [https://d13vpwdkbkv4ik.cloudfront.net](https://d13vpwdkbkv4ik.cloudfront.net)
+
+
+
+
+
+
+
+
 This is a blank project for CDK development with Python.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
