@@ -123,7 +123,7 @@ Import the file:
 postman/OutfitPlanner.postman_collection.json
 
 Set collection variable:
-base = <ApiUrl from CloudFormation outputs>
+base = ApiUrl from CloudFormation outputs
 
 ---
 
