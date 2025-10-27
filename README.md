@@ -6,7 +6,11 @@ Users can create, list, and view outfit items in a responsive web interface.
 
 🔗 **Live Demo:** [https://d13vpwdkbkv4ik.cloudfront.net](https://d13vpwdkbkv4ik.cloudfront.net)
 
+## 🖼️ Screenshots
 
+| Web App | DynamoDB Table |
+|---|---|
+| ![Outfit Planner Web](./app-screenshot.png) | ![DynamoDB Items](./dynamodb-items.png) |
 
 
 
