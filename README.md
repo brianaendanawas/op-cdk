@@ -40,9 +40,6 @@ op-cdk/
 ├── README.md # Project documentation
 └── requirements.txt # Python dependencies
 
-yaml
-Copy code
-
 ---
 
 ## 🧰 Setup Instructions
@@ -56,33 +53,18 @@ It uses a virtual environment (`.venv`) to manage dependencies.
 python3 -m venv .venv
 source .venv/bin/activate
 
-markdown
-Copy code
-
 **Windows**
 python -m venv .venv
 .venv\Scripts\activate.bat
 
-shell
-Copy code
-
 ### Install dependencies
 pip install -r requirements.txt
-
-shell
-Copy code
 
 ### Synthesize CloudFormation template
 cdk synth
 
-shell
-Copy code
-
 ### Deploy the stack
 cdk deploy
-
-yaml
-Copy code
 
 ---
 
@@ -117,18 +99,12 @@ aws cloudformation describe-stacks --stack-name OutfitPlanner-Prod
 --query "Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue"
 --output text
 
-yaml
-Copy code
-
 ---
 
 ## 🩺 Health Check
 
 `GET /health` → returns:
 { "ok": true, "service": "OutfitPlanner", "stage": "prod", "table": "OutfitPlanner-prod", "time": "..." }
-
-yaml
-Copy code
 
 Prod CORS: `https://d13vpwdkbkv4ik.cloudfront.net`
 
@@ -139,9 +115,6 @@ Prod CORS: `https://d13vpwdkbkv4ik.cloudfront.net`
 `GET /version` → returns:
 { "version": "v0.6-week5", "stage": "prod", "deployedAt": "..." }
 
-yaml
-Copy code
-
 ---
 
 ## 📬 Postman Collection
@@ -149,14 +122,8 @@ Copy code
 Import the file:
 postman/OutfitPlanner.postman_collection.json
 
-javascript
-Copy code
-
 Set collection variable:
 base = <ApiUrl from CloudFormation outputs>
-
-yaml
-Copy code
 
 ---
 
