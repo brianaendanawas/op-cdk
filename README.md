@@ -127,6 +127,15 @@ base = ApiUrl from CloudFormation outputs
 
 ---
 
+## 🧭 Future Ideas
+- Auth (Cognito) – user-specific items
+- Image upload (S3 signed URLs) for item photos
+- Tag-based search & filters
+- Batch import/export (CSV/JSON)
+- Simple CI gate: synth only on infra changes
+
+---
+
 ## ✅ Current Version
 
 **APP_VERSION:** `v0.6-week5`  
