@@ -7,7 +7,6 @@
 - CDK installed: `npm i -g aws-cdk`
 
 ## 1) One-time: CDK bootstrap (per account/region)
-```bash
 cdk bootstrap aws://<ACCOUNT_ID>/<REGION>
 
 ## 2) Install deps
@@ -137,45 +136,4 @@ cdk destroy OutfitPlanner-Dev
 ## 7) Notes
 - Dev table → DESTROY on delete; Prod table → RETAIN
 - CORS → Dev = *; Prod = https://d13vpwdkbkv4ik.cloudfront.net
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
