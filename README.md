@@ -8,6 +8,28 @@ Users can create, list, and view outfit items in a responsive web interface.
 
 ---
 
+## ⚡ At a Glance
+
+Stack: API Gateway • Lambda (Python 3.12) • DynamoDB • S3 + CloudFront • CDK (Python)
+What to try: Create → List → View outfits via the web client (CloudFront).
+Why it’s here: Simple serverless CRUD + IaC with a dev/prod split and a short runbook.
+
+Quick Start
+
+1. ```bash
+   cdk bootstrap
+   ```
+   (first time only)
+2. ```bash
+   cdk deploy OutfitPlanner-Dev
+   ```
+3. Open the CloudFront URL → paste your API base URL in config.js
+4. Test Create/List in the UI
+
+Runbook: see RUNBOOK.md (deploy, smoke tests, rollback, CloudFront cache invalidation).
+
+---
+
 ## 🏗️ Architecture Overview
 
 **Frontend:**  
@@ -50,21 +72,31 @@ It uses a virtual environment (`.venv`) to manage dependencies.
 ### Create and activate virtual environment
 
 **MacOS / Linux**
+```bash
 python3 -m venv .venv
 source .venv/bin/activate
+```
 
 **Windows**
+```bash
 python -m venv .venv
 .venv\Scripts\activate.bat
+```
 
 ### Install dependencies
+```bash
 pip install -r requirements.txt
+```
 
 ### Synthesize CloudFormation template
+```bash
 cdk synth
+```
 
 ### Deploy the stack
+```bash
 cdk deploy
+```
 
 ---
 
@@ -95,9 +127,11 @@ cdk deploy
 ## 🔍 Useful CLI Commands
 
 Get Prod API URL:
+```bash
 aws cloudformation describe-stacks --stack-name OutfitPlanner-Prod
 --query "Stacks[0].Outputs[?OutputKey=='ApiUrl'].OutputValue"
 --output text
+```
 
 ---
 
@@ -138,7 +172,7 @@ base = ApiUrl from CloudFormation outputs
 
 ## ✅ Current Version
 
-**APP_VERSION:** `v0.6-week5`  
+**APP_VERSION:** `v1.0-week7`  
 **Stacks deployed:** Dev + Prod  
 **CloudFront URL:** [https://d13vpwdkbkv4ik.cloudfront.net](https://d13vpwdkbkv4ik.cloudfront.net)
 
