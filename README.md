@@ -192,3 +192,9 @@ base = ApiUrl from CloudFormation outputs
 **CloudFront URL:** [https://d13vpwdkbkv4ik.cloudfront.net](https://d13vpwdkbkv4ik.cloudfront.net)
 
 ---
+
+
+### 🔍 Quick Verify
+```bash
+bash scripts/smoke.sh
+```
