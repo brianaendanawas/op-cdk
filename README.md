@@ -30,6 +30,17 @@ Runbook: see RUNBOOK.md (deploy, smoke tests, rollback, CloudFront cache invalid
 
 ---
 
+## 60 Second Smoke Test
+```bash
+# API quick check
+curl -s https://jauog4gfif.execute-api.us-east-1.amazonaws.com/version
+curl -s https://jauog4gfif.execute-api.us-east-1.amazonaws.com/health
+# CloudFront reachable?
+curl -I https://d13vpwdkbkv4ik.cloudfront.net/
+```
+
+---
+
 ## 🏗️ Architecture Overview
 
 **Frontend:**  
