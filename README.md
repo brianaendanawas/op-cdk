@@ -1,5 +1,7 @@
 ![](https://img.shields.io/github/actions/workflow/status/brianaendanawas/op-cdk/cdk-synth.yml?branch=main) ![](https://img.shields.io/github/license/brianaendanawas/op-cdk ) ![](https://img.shields.io/github/last-commit/brianaendanawas/op-cdk )
 
+![](https://img.shields.io/github/actions/workflow/status/brianaendanawas/op-cdk/cdk-synth.yml?branch=main) ![](https://img.shields.io/github/license/brianaendanawas/op-cdk ) ![](https://img.shields.io/github/last-commit/brianaendanawas/op-cdk )
+
 # 👗 Outfit Planner – AWS CDK Project
 
 A **serverless outfit planning app** built with **AWS CDK (Python)**.  
